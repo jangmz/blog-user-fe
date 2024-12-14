@@ -1,6 +1,6 @@
 function Navbar() {
     return (
-        <nav className="navbar navbar-expand-md bg-primary sticky-top mb-4">
+        <nav className="navbar navbar-expand-md bg-primary sticky-top">
             <div className="container-fluid">
                 <h3 className="navbar-brand">Logo</h3>
                 <button type="button" className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

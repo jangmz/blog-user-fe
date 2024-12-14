@@ -1,6 +1,6 @@
 import './App.css'
 import Banner from './components/Banner'
-import BlogCards from './components/BlogCards'
+import BlogCardsSection from './components/BlogCardsSection'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 
@@ -10,7 +10,7 @@ function App() {
     <div>
       <Navbar />
       <Banner />
-      <BlogCards />
+      <BlogCardsSection />
       <Footer />
     </div>
   )
