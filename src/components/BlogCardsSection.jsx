@@ -3,7 +3,7 @@ import BlogCard from "./BlogCard";
 
 function BlogCardsSection() {
     // last 6 posts
-    const recentPosts = [
+    const [posts, setPosts] = useState([
         {
             id: 1,
             title: "Test 1",
@@ -35,14 +35,31 @@ function BlogCardsSection() {
             content: "Test content 6",
             created: "12/12/2024"
         }
-    ];
+    ]);
+
+    /*useEffect(() =>{
+        fetch("http://localhost:5000/posts")
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP Error: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data)
+                setPosts(data);
+            })
+            .catch((error) => {
+                console.error(`Error fetching API: ${error.message}`);
+            })
+    }, [])*/
 
     return (
         <div id="blog-cards" className="container-fluid d-flex flex-column align-items-center mt-4">
             <h2>Recent articles</h2>
             <div className="row w-100 justify-content-center">
                 {
-                    recentPosts.map(post => (
+                    posts.map(post => (
                         <BlogCard 
                             key={post.id}
                             title={post.title}
