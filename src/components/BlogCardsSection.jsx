@@ -38,8 +38,8 @@ function BlogCardsSection() {
     ];
 
     return (
-        <div id="blog-cards" className="container-fluid d-flex flex-column align-items-center">
-            <h2>Articles</h2>
+        <div id="blog-cards" className="container-fluid d-flex flex-column align-items-center mt-4">
+            <h2>Recent articles</h2>
             <div className="row w-100 justify-content-center">
                 {
                     recentPosts.map(post => (
