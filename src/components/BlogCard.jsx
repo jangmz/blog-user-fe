@@ -1,17 +1,19 @@
-function BlogCard({ title, shortContent, created }) {
+function BlogCard({ title, content, created }) {
+    const shortContent = content.slice(0,100);
+
     return (
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="..."/>
-            <div class="card-body">
-                <h5 class="card-title">
+        <div className="card p-0 m-3 col-xs-11 col-md-5 col-lg-3 col-xl-3">
+            <img src="..." className="card-img-top" alt="..."/>
+            <div className="card-body">
+                <h5 className="card-title">
                     {title}
                 </h5>
-                <p class="card-text">
+                <p className="card-text">
                     {shortContent}
                 </p>
-                <a href="#" class="btn btn-primary">Read</a>
+                <a href="#" className="btn btn-primary">Read</a>
             </div>
-            <div class="card-footer text-body-secondary">
+            <div className="card-footer text-body-secondary">
                 {created}
             </div>
         </div>
