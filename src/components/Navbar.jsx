@@ -9,6 +9,9 @@ function Navbar() {
                 <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
                     <ul className="navbar-nav ms-auto d-flex gap-2">
                         <li className="nav-item">
+                            <a href="#" className="nav-link">Articles</a>
+                        </li>
+                        <li className="nav-item">
                             <a className="nav-link" href="#">Log In</a>
                         </li>
                         <li className="nav-item">
