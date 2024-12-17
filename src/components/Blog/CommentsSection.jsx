@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Comment from "./Comment";
 
-/* TODO: for fetched comments from DB, change userId to username */
+/* TODO: for fetched comments from DB, change userId to username (user) */
 
 export default function CommentsSection() {
     const [comments, setComments] = useState([
