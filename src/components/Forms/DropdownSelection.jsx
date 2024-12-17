@@ -5,7 +5,7 @@ export default function DropdownSelection({ label, name, values }) {
             <select name={name} id={name} className="form-select">
                 {
                     values.map(value => (
-                        <option value={value}>{value}</option>
+                        <option key={value} value={value}>{value}</option>
                     ))
                 }
             </select>
