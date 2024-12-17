@@ -38,7 +38,6 @@ export default function BlogList() {
 
     return (
         <div className="container-fluid d-flex flex-column align-items-center">
-            <h2>All articles</h2>
             <div className="row w-100 justify-content-center">
                 {
                     posts.map(post => (
