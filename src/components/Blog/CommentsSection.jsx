@@ -1,13 +1,15 @@
 import { useState } from "react"
 import Comment from "./Comment";
 
+/* TODO: for fetched comments from DB, change userId to username */
+
 export default function CommentsSection() {
     const [comments, setComments] = useState([
         {
             id: 1,
             content: "This comment is a test.",
             created: "12/12/2024",
-            user: "admin"
+            user: "admin" 
         },{
             id: 2,
             content: "This comment is a test.",
