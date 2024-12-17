@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import BlogCard from "./BlogCard";
+import BlogCard from "./Blog/BlogCard";
 
 function BlogCardsSection() {
     // last 6 posts

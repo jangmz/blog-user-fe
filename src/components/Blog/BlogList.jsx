@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BlogCard from "./BlogCard";
 
-export default function BlogAllArticles() {
+export default function BlogList() {
     const [posts, setPosts] = useState([
         {
             id: 1,
