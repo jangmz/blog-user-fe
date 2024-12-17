@@ -6,8 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Layout from "./components/Layouts/Layout.jsx";
 import Home from "./pages/Home.jsx";
+import Post from './pages/Posts.jsx';
 import PostDetails from './pages/PostDetails.jsx';
-import BlogList from './components/Blog/BlogList.jsx';
 import ErrorPage from './components/ErrorPage.jsx';
 
 const router = createBrowserRouter([
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> }, // renders at "/"
-      { path: "posts", element: <BlogList /> },
+      { path: "posts", element: <Post /> },
       { path: "posts/:postId", element: <PostDetails />},
       /*{ path: "log-in", element: },
       { path: "sign-up", element: },
