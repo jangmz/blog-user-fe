@@ -47,13 +47,17 @@ export default function BlogArticle({ id }) {
 
     return (
         <div className="container">
-            <h1>{currentPost[0].title}</h1>
-            <h5>Author: {currentPost[0].author}</h5>
-            <h5>Posted: {currentPost[0].created}</h5>
-            {
-                currentPost[0].updated !== undefined ? <h5>Updated: {currentPost[0].updated}</h5> : ""
-            }
-            <p>Post content.</p>
+            <h1 className="text-center">{currentPost[0].title}</h1>
+            <div className="d-flex flex-column">
+                <i>Author: {currentPost[0].author}</i>
+                <i>Posted: {currentPost[0].created}</i>
+                {
+                    currentPost[0].updated !== undefined ? <i>Updated: {currentPost[0].updated}</i> : ""
+                }
+            </div>
+            <div className="container bg-light mt-3 p-4" style={{borderRadius: "10px"}}>
+                <p>Post content.</p>
+            </div>
         </div>
     )
 }
