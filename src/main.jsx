@@ -5,8 +5,8 @@ import './index.css'
 import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import BlogAllArticles from './components/BlogAllArticles.jsx';
-import BlogArticle from './components/BlogArticle.jsx';
+import BlogList from './components/Blog/BlogList.jsx';
+import BlogArticle from './components/Blog/BlogArticle.jsx';
 import ErrorPage from './components/ErrorPage.jsx';
 
 const router = createBrowserRouter([
@@ -17,13 +17,13 @@ const router = createBrowserRouter([
     children: [
       {
         path: "posts",
-        element: <BlogAllArticles />,
-        /*children: [
+        element: <BlogList />,
+        children: [
           {
             path:":postID",
             element: <BlogArticle />
           }
-        ]*/
+        ]
       }/*,{
         path: "log-in",
         element: 
