@@ -7,9 +7,9 @@ export default function ErrorPage() {
 
     return (
         <div className="container d-flex flex-column justify-content-center align-items-center">
-            <h1>Error</h1>
+            <h1>{error.status} {error.statusText}</h1>
             <p>
-                <i>{error.statusText || error.message}</i>
+                <i>{error.data}</i>
             </p>
             <Link to="/">Go back to homepage</Link>
         </div>
