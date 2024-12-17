@@ -43,6 +43,7 @@ export default function BlogList() {
                     posts.map(post => (
                         <BlogCard 
                             key={post.id}
+                            id={post.id}
                             title={post.title}
                             content={post.content}
                             created={post.created}

@@ -1,4 +1,6 @@
-function BlogCard({ title, content, created }) {
+import { Link } from "react-router-dom";
+
+function BlogCard({ id, title, content, created }) {
     const shortContent = content.slice(0,100);
 
     return (
@@ -11,7 +13,8 @@ function BlogCard({ title, content, created }) {
                 <p className="card-text">
                     {shortContent}
                 </p>
-                <a href="#" className="btn btn-primary">Read</a>
+                {/* home -> /id ... posts -> /posts/id ??? */}
+                <Link to={`/posts/${id}`} className="btn btn-primary">Read</Link>
             </div>
             <div className="card-footer text-body-secondary">
                 {created}
