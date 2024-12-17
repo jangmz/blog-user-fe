@@ -24,6 +24,7 @@ export default function CommentsSection() {
             {
                 comments.map(comment => (
                     <Comment 
+                        key={comment.id}
                         id={comment.id}
                         content={comment.content}
                         created={comment.created}
