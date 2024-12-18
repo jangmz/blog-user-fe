@@ -1,8 +1,9 @@
 import { useState } from "react";
 import BlogCard from "./BlogCard";
+import { useBlogContext } from "../../context/BlogContext";
 
 export default function BlogList() {
-    const [posts, setPosts] = useState([
+    const [allPosts, setAllPosts] = useState([
         {
             id: 1,
             title: "Test 1",
@@ -35,12 +36,23 @@ export default function BlogList() {
             created: "12/12/2024"
         }
     ]);
+    /*
+    const { allPosts, loading, error } = useBlogContext();
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>
+    }
+        */
 
     return (
         <div className="container-fluid d-flex flex-column align-items-center">
             <div className="row w-100 justify-content-center">
                 {
-                    posts.map(post => (
+                    allPosts.map(post => (
                         <BlogCard 
                             key={post.id}
                             id={post.id}
