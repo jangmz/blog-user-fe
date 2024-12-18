@@ -11,6 +11,7 @@ import PostDetails from './pages/PostDetails.jsx';
 import ErrorPage from './components/ErrorPage.jsx';
 import LogInForm from './components/Forms/LogInForm.jsx';
 import SignUpForm from './components/Forms/SignUpForm.jsx';
+import { BlogProvider } from './context/BlogContext.jsx';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <BlogProvider>
+      <RouterProvider router={router} />
+    </BlogProvider>
   </StrictMode>,
 )
