@@ -6,6 +6,7 @@ export default function CommentsSection({ currentPost }) {
     return (
         <div className="container justify-content-center">
             <h3>Comments</h3>
+            {/* TODO: display comment input field when user is logged in */}
             {
                 comments.length > 0 ? 
                 comments.map(comment => (

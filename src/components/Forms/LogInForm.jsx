@@ -36,7 +36,7 @@ export default function LogInForm() {
                 return response.json()
             })
             .then(data => {
-                // save tokens to localStorage
+                // TODO: save tokens to localStorage
                 console.log(data)
             })
             .catch(error => {
