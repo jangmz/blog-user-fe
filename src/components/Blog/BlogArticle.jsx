@@ -1,15 +1,4 @@
-import { useBlogContext } from "../../context/BlogContext"
-
-export default function BlogArticle({ id }) {
-    const { posts } = useBlogContext()
-    const currentPost = posts.find(post => post.id === Number(id))
-
-    console.log(posts)
-    console.log("ID: ", id)
-
-    if (!currentPost) {
-        throw new Error("Post not found.")
-    }
+export default function BlogArticle({ currentPost }) {
 
     return (
         <div className="container">
