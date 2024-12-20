@@ -6,19 +6,19 @@ export default function useFetchPosts() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        async function fetchPosts() {
-            try {
-                    const response = await fetch("http://localhost:5000/posts");
-                    const data = await response.json();
-                    setPosts(data);
-            } catch (error) {
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchPosts();
+        fetch("http://localhost:5000/posts")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error fetching data from API.")
+                }
+                return response.json()
+            })
+            .then(data => {
+                //console.log(data)
+                setPosts(data)
+            })
+            .catch(error => setError(error))
+            .finally(() => setLoading(false))
     }, []);
 
     return { posts, loading, error };
