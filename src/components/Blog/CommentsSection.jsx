@@ -14,7 +14,8 @@ export default function CommentsSection({ currentPost }) {
                         id={comment.id}
                         content={comment.content}
                         created={comment.created}
-                        userId={comment.userId}
+                        user={comment.user.username}
+                        userRole={comment.user.role}
                     />
                 )) :
                 <p>There are no comments</p>

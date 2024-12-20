@@ -4,7 +4,7 @@ export default function BlogArticle({ currentPost }) {
         <div className="container">
             <h1 className="text-center">{currentPost.title}</h1>
             <div className="d-flex flex-column">
-                <i>Author: {currentPost.author}</i>
+                <i>Author: {currentPost.author.username}</i>
                 <i>Posted: {currentPost.created}</i>
                 <i>
                     {
