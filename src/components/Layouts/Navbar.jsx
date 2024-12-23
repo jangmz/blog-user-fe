@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import UserNavbar from "./UserNavbar";
+import GeneralNavbar from "./GeneralNavbar";
 
 function Navbar() {
     return (
@@ -11,17 +13,11 @@ function Navbar() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul className="navbar-nav ms-auto d-flex gap-2">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="posts">Articles</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="log-in" className="nav-link">Log In</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="sign-up" className="nav-link">Sign Up</Link>
-                        </li>
-                    </ul>
+                    {
+                        localStorage.getItem("refreshToken") ?
+                            <UserNavbar /> : <GeneralNavbar />
+                            //TODO: implement AuthorNavbar
+                    }
                 </div>
                 
             </div>
