@@ -1,11 +1,11 @@
 import Banner from "../components/Banner";
-import BlogList from "../components/Blog/BlogList";
+import RecentBlogList from "../components/Blog/RecentBlogList";
 
 export default function Home() {
     return (
         <>
             <Banner />
-            <BlogList />
+            <RecentBlogList />
         </>
     )
 }
