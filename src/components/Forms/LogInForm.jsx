@@ -1,5 +1,6 @@
 import { useState } from "react";
 import FormInput from "./FormInput";
+import { useNavigate } from "react-router-dom";
 
 export default function LogInForm() {
     const [userLogIn, setUserLogIn] = useState({
@@ -7,6 +8,8 @@ export default function LogInForm() {
         password: "",
     })
     const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(null)
+    const navigate = useNavigate()
 
     function handleUsername(e) {
         setUserLogIn({...userLogIn, username: e.target.value})
@@ -18,6 +21,7 @@ export default function LogInForm() {
 
     async function handleSubmit(e){
         e.preventDefault()
+        //setLoading(true)
         console.log("User data input: ", JSON.stringify(userLogIn))
 
         fetch("http://localhost:5000/log-in", {
@@ -36,13 +40,26 @@ export default function LogInForm() {
                 return response.json()
             })
             .then(data => {
-                // TODO: save tokens to localStorage
+                console.log("Log in successfull.")
+                localStorage.setItem("accessToken", data.accessToken)
+                localStorage.setItem("refreshToken", data.refreshToken)
                 console.log(data)
             })
             .catch(error => {
                 console.log("Error during log in: ", error)
                 setError(error.message)
             })
+            .finally(() => {
+                navigate("/")
+            })
+    }
+
+    if (loading) {
+        return (
+            <div className="container text-center">
+                <div>Loading ...</div>
+            </div>
+        )
     }
 
     return (
