@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"
 import DropdownSelection from "./DropdownSelection";
 import FormInput from "./FormInput";
 
@@ -11,7 +12,7 @@ export default function SignUpForm() {
         role: "USER"
     })
     const [errors, setErrors] = useState([])
-    const [success, setSuccess] = useState(null)
+    const [success, setSuccess] = useState(false)
 
     function handleChange(e) {
         const { name, value } = e.target
@@ -55,12 +56,15 @@ export default function SignUpForm() {
                     email: "",
                     role: "USER"
                 })
-                setSuccess(data.message)
-                // TODO: redirect after 2 seconds
+                setSuccess(true)
             })
             .catch(error => {
                 console.log("Error during log in: ", error)
             })
+    }
+
+    if (success) {
+        useNavigate("/log-in")
     }
 
     return (
