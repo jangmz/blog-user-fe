@@ -12,7 +12,6 @@ import ErrorPage from './components/ErrorPage.jsx';
 import LogInForm from './components/Forms/LogInForm.jsx';
 import SignUpForm from './components/Forms/SignUpForm.jsx';
 import { BlogProvider } from './context/BlogContext.jsx';
-import LogOut from './components/LogOut.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 
 const router = createBrowserRouter([
@@ -26,16 +25,18 @@ const router = createBrowserRouter([
       { path: "posts/:postId", element: <PostDetails />},
       { path: "log-in", element: <LogInForm />},
       { path: "sign-up", element: <SignUpForm />},
-      { path: "log-out", element: <LogOut />}
     ]
   }
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <AuthProvider>
-    <BlogProvider>
-      <RouterProvider router={router} />
-    </BlogProvider>
-  </AuthProvider>
+  <StrictMode>
+    <AuthProvider>
+      <BlogProvider>
+        <RouterProvider router={router} />
+      </BlogProvider>
+    </AuthProvider>
+  </StrictMode>
+  
     
 )
