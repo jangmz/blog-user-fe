@@ -12,7 +12,7 @@ import ErrorPage from './components/ErrorPage.jsx';
 import LogInForm from './components/Forms/LogInForm.jsx';
 import SignUpForm from './components/Forms/SignUpForm.jsx';
 import { BlogProvider } from './context/BlogContext.jsx';
-import { AuthProvider } from './context/AuthContext.jsx';
+import AuthProvider from './context/AuthContext.jsx';
 
 const router = createBrowserRouter([
   {
