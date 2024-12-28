@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FormInput from "./FormInput";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function LogInForm() {
     const [userLogIn, setUserLogIn] = useState({
@@ -8,58 +9,31 @@ export default function LogInForm() {
         password: "",
     })
     const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(null)
+    const auth = useAuth()
     const navigate = useNavigate()
 
-    function handleUsername(e) {
-        setUserLogIn({...userLogIn, username: e.target.value})
-    }
-
-    function handlePassword(e) {
-        setUserLogIn({...userLogIn, password: e.target.value})
+    function handleInput(e) {
+        const {name, value} = e.target
+        setUserLogIn((prev) => ({...prev, [name]: value}))
     }
 
     async function handleSubmit(e){
         e.preventDefault()
-        //setLoading(true)
-        console.log("User data input: ", JSON.stringify(userLogIn))
 
-        fetch("http://localhost:5000/log-in", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userLogIn)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errorData => {
-                        throw new Error(errorData.error || "Unknown error occured.")
-                    })
-                }
-                return response.json()
-            })
-            .then(data => {
-                console.log("Log in successfull.")
-                localStorage.setItem("accessToken", data.accessToken)
-                localStorage.setItem("refreshToken", data.refreshToken)
-                console.log(data)
-            })
-            .catch(error => {
-                console.log("Error during log in: ", error)
-                setError(error.message)
-            })
-            .finally(() => {
-                navigate("/")
-            })
-    }
+        if (userLogIn.username !== "" || userLogIn.password !== "") {
+            console.log("User data input: ", JSON.stringify(userLogIn))
+            auth.logIn(userLogIn)
+            
+            if (auth.error) {
+                console.log("Auth Error: ", auth.error)
+                setError(auth.error)
+            }
 
-    if (loading) {
-        return (
-            <div className="container text-center">
-                <div>Loading ...</div>
-            </div>
-        )
+            //navigate("/")
+            return
+        }
+
+        alert("Please provide a valid input!")
     }
 
     return (
@@ -77,13 +51,13 @@ export default function LogInForm() {
                         label={"Username"}
                         name={"username"}
                         type={"text"}
-                        onChange={e => handleUsername(e)}
+                        onChange={e => handleInput(e)}
                     />
                     <FormInput
                         label={"Password"}
                         name={"password"}
                         type={"password"}
-                        onChange={e => handlePassword(e)}
+                        onChange={e => handleInput(e)}
                     />
                     <button type="submit" className="btn btn-primary">Log In</button>
                 </form>
