@@ -13,7 +13,7 @@ export default function UserNavbar() {
                 <Link className="nav-link" to="posts">Blog</Link>
             </li>
             <li className="nav-item">
-                <Link className="nav-link" to="profile">Profile(not available)</Link>
+                <Link className="nav-link" to="profile">My Profile</Link>
             </li>
             <li className="nav-item">
                 <button className="nav-link" onClick={auth.logOut}>Log Out</button>
