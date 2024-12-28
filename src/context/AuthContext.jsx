@@ -27,16 +27,17 @@ function AuthProvider({ children }) {
             .then(data => {
                 console.log("Log in successfull.")
                 console.log(data) // refreshToken, accessToken
+                const { username, role, email } = jwtDecode(data.refreshToken)
                 
                 localStorage.setItem("accessToken", data.accessToken)
                 localStorage.setItem("refreshToken", data.refreshToken)
+                localStorage.setItem("user", { username, role, email }) // how to save object?
                 
-                const { username, role } = jwtDecode(data.refreshToken)
 
-                console.log(`User data for context. Username: ${username}, Role: ${role}`)
+                console.log(`User data for context. Username: ${username}, Role: ${role}, E-mail: ${email}`)
                 
                 setToken(data.refreshToken) // token assigned
-                setUser({ username, role })
+                setUser({ username, role, email })
             })
             .catch(error => {
                 console.log(error.message)
@@ -62,6 +63,7 @@ function AuthProvider({ children }) {
 
             localStorage.removeItem("refreshToken")
             localStorage.removeItem("accessToken")
+            localStorage.removeItem("user")
 
             setToken("")
             setUser(null)

@@ -8,7 +8,7 @@ export default function LogInForm() {
         username: "",
         password: "",
     })
-    const [error, setError] = useState(null)
+    const [redirect, setRedirect] = useState(false)
     const auth = useAuth()
     const navigate = useNavigate()
 
@@ -23,28 +23,20 @@ export default function LogInForm() {
         if (userLogIn.username !== "" || userLogIn.password !== "") {
             console.log("User data input: ", JSON.stringify(userLogIn))
             auth.logIn(userLogIn)
-            
-            if (auth.error) {
-                console.log("Auth Error: ", auth.error)
-                setError(auth.error)
-            }
-
-            //navigate("/")
+            setRedirect(true)
             return
         }
 
         alert("Please provide a valid input!")
     }
 
+    if (redirect) {
+        navigate("/")
+    }
+
     return (
         <div className="container text-center">
             <h1 className="m-4">Log In</h1>
-            {
-                error &&
-                <div className="alert alert-danger" role="alert">
-                    {error}
-                </div> 
-            }
             <div className="container-fluid w-50">
                 <form onSubmit={handleSubmit}>
                     <FormInput
