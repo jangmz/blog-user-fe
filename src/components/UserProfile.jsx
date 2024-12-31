@@ -16,7 +16,10 @@ function UserProfile() {
     }
 
     async function handleUpdate(e) {
+        e.preventDefault()
+
         // update new data in DB, context, localstorage
+        console.log("New user data: ", user)
     }
 
     return (
