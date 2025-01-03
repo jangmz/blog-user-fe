@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 export default function LogInForm() {
+    const auth = useAuth()
     const [userLogIn, setUserLogIn] = useState({
         username: "",
         password: "",
     })
-    const [redirect, setRedirect] = useState(false)
-    const auth = useAuth()
+    const [error, setError] = useState(null)
     const navigate = useNavigate()
 
     function handleInput(e) {
@@ -20,23 +20,36 @@ export default function LogInForm() {
     async function handleSubmit(e){
         e.preventDefault()
 
-        if (userLogIn.username !== "" || userLogIn.password !== "") {
-            console.log("User data input: ", JSON.stringify(userLogIn))
-            auth.logIn(userLogIn)
-            setRedirect(true)
+        if (userLogIn.username === "" || userLogIn.password === "") {
+            setError("Please provide both username and password.")
             return
         }
 
-        alert("Please provide a valid input!")
-    }
+        console.log("User data input: ", JSON.stringify(userLogIn))
 
-    if (redirect) {
-        navigate("/")
+        try {
+            const success = await auth.logIn(userLogIn)
+
+            if (success) {
+                navigate("/")
+            } else {
+                setError("Invalid username or password.")
+            }
+        } catch (error) {
+            console.log("Error occured during log in: ", error.message)
+            setError(error.message)
+        }
     }
 
     return (
         <div className="container text-center">
             <h1 className="m-4">Log In</h1>
+            {
+                error && 
+                <div className="alert alert-danger" role="alert">
+                    {error}
+                </div>
+            }
             <div className="container-fluid w-50">
                 <form onSubmit={handleSubmit}>
                     <FormInput

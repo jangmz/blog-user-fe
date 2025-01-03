@@ -9,40 +9,42 @@ function AuthProvider({ children }) {
 
     async function logIn(userData) { // input -> username, password
         console.log("Logging user in...")
-        
-        fetch("http://localhost:5000/log-in", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(userData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errorData => {
-                        console.log("Details of error from server: ", errorData.error)
-                        throw new Error(errorData.error)
-                    })
-                }
-                return response.json()
-            })
-            .then(data => {
-                console.log("Log in successfull.")
-                console.log(data) // refreshToken, accessToken
-                const { username, role, email } = jwtDecode(data.refreshToken)
-                
-                localStorage.setItem("accessToken", data.accessToken)
-                localStorage.setItem("refreshToken", data.refreshToken)
-                localStorage.setItem("user", { username, role, email }) // how to save object?
-                
 
-                console.log(`User data for context. Username: ${username}, Role: ${role}, E-mail: ${email}`)
-                
-                setToken(data.refreshToken) // token assigned
-                setUser({ username, role, email })
+        try {
+            const response = await fetch("http://localhost:5000/log-in", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userData)
             })
-            .catch(error => {
-                console.log(error.message)
-                alert(error.message)
-            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                console.log("Details of error from the server: ", errorData.error)
+                throw new Error(errorData.error)
+            }
+
+            const data = await response.json()
+            console.log("Log in successfull.")
+
+            // user data
+            const { username, role, email } = jwtDecode(data.refreshToken)
+            const userDecodedData = { username, role, email }
+            
+            // saving data to localStorage
+            localStorage.setItem("accessToken", data.accessToken)
+            localStorage.setItem("refreshToken", data.refreshToken)
+
+            console.log(`User data for context. Username: ${userDecodedData.username}, Role: ${userDecodedData.role}, E-mail: ${userDecodedData.email}`)
+            
+            // assigning data to context
+            setToken(data.refreshToken)
+            setUser(userDecodedData)
+
+            return true
+        } catch (error) {
+            console.log("Error during log in: ", error.message)
+            return false
+        }
     }
 
     async function logOut() {
@@ -63,15 +65,14 @@ function AuthProvider({ children }) {
 
             localStorage.removeItem("refreshToken")
             localStorage.removeItem("accessToken")
-            localStorage.removeItem("user")
 
             setToken("")
             setUser(null)
 
             console.log("User logged out.")
         }).catch(error => {
-            console.error("Error logging out: ", error)
-            return error
+            console.error("Error logging out: ", error.message)
+            alert(error.message)
         })
     }
 
