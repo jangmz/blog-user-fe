@@ -2,32 +2,87 @@ import { useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import Comment from "./Comment"
 import CommentInput from "./CommentInput"
+import { isTokenExpired, refreshAccessToken } from "../../Utility/token"
+
+{/* TODO: re-fetch all posts and reload the article with the new comment (or add it in state) */}
 
 export default function CommentsSection({ currentPost }) {
-    const [comment, setComment] = useState("")
+    const [commentData, setCommentData] = useState({
+        content: "",
+        postId: currentPost.id
+    })
+    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || null)
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState(null)
     const comments = currentPost.comments
     const {user} = useAuth()
 
     function handleInput(e) {
-        setComment(prev => prev = e.target.value)
+        setCommentData(prev => ({...prev, content: e.target.value}))
     }
 
-    /* TODO: Save new comment to DB (currentPost has info) */
-
-    function onCommentSubmit(e) {
+    async function onCommentSubmit(e) {
         e.preventDefault()
 
-        console.log("Save comment to DB: ", comment)
+        console.log("Save comment to DB: ", commentData)
         console.log("Post information: ", currentPost)
+
+        // check access token expiration
+        if (isTokenExpired(accessToken)) {
+            console.log("Current access token is expired. Refreshing access token...")
+            try {
+                refreshAccessToken()
+                setAccessToken(localStorage.getItem("accessToken"))
+
+                console.log("Access token refreshed successfully.")
+            } catch (error) {
+                console.log("Error occured: ", error.message)
+                setError(error.message)
+            }
+        }
+
+        try {
+            const response = await fetch("http://localhost:5000/comments", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                },
+                body: JSON.stringify(commentData)
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                console.log("Details of error from the server: ", errorData.error)
+                throw new Error(errorData.error)
+            }
+
+            setSuccess(true)
+        } catch (error) {
+            console.log("Error occured: ", error.message)
+            setError(error.message)
+        }
     }
 
     return (
         <div className="container justify-content-center">
             <h3 className="text-center m-4">Comments</h3>
             {
+                error &&
+                <div className="alert alert-danger" role="alert">
+                    {error}
+                </div> 
+            }
+            {
+                success && 
+                <div className="alert alert-success" role="alert">
+                    Comment posted.
+                </div>
+            }
+            {
                 user ? 
                 <CommentInput 
-                    comment={comment}
+                    comment={commentData}
                     handleInput={handleInput}
                     onCommentSubmit={onCommentSubmit}
                 />
