@@ -27,14 +27,14 @@ function AuthProvider({ children }) {
             console.log("Log in successfull.")
 
             // user data
-            const { username, role, email } = jwtDecode(data.refreshToken)
-            const userDecodedData = { username, role, email }
+            const { id, username, role, email } = jwtDecode(data.refreshToken)
+            const userDecodedData = { id, username, role, email }
             
             // saving data to localStorage
             localStorage.setItem("accessToken", data.accessToken)
             localStorage.setItem("refreshToken", data.refreshToken)
 
-            console.log(`User data for context. Username: ${userDecodedData.username}, Role: ${userDecodedData.role}, E-mail: ${userDecodedData.email}`)
+            console.log(`User data for context. ID: ${userDecodedData.id}, Username: ${userDecodedData.username}, Role: ${userDecodedData.role}, E-mail: ${userDecodedData.email}`)
             
             // assigning data to context
             setToken(data.refreshToken)
