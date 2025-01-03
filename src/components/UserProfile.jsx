@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import FormInput from "./Forms/FormInput";
@@ -7,10 +7,18 @@ import DropdownSelection from "./Forms/DropdownSelection";
 function UserProfile() {
     const {user} = useAuth()
     const [userData, setUserData] = useState(user || null)
+    const navigate = useNavigate()
     
     /* TODO #1: If user isn't logged in redirect the user to log in screen */
     /* TODO #2: Update new data in DB, context, localStorage */
     /* TODO #3: Delete user */
+
+    useEffect(() => {
+        if (!userData) {
+            console.log("User is not logged in. Redirecting to log in form.")
+            navigate("/log-in")
+        }
+    },[navigate, user])
 
     function handleInput(e) {
         const { name, value } = e.target
@@ -24,6 +32,10 @@ function UserProfile() {
 
     function deleteAccount() {
         console.log("User will be deleted: ", user)
+    }
+
+    if (!user) {
+        return null
     }
 
     return (
