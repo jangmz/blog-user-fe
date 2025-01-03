@@ -9,7 +9,7 @@ function CommentInput({ comment, handleInput, onCommentSubmit}) {
                         label={"New comment"}
                         name={"comment"}
                         type={"text"}
-                        value={comment}
+                        value={comment.content}
                         onChange={(e) => handleInput(e)}
                     />
                     <button type="submit" className="btn btn-primary">Post</button>
