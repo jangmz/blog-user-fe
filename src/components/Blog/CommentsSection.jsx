@@ -1,12 +1,13 @@
 import { useState } from "react"
-import { useAuth } from "../../context/AuthContext"
 import Comment from "./Comment"
 import CommentInput from "./CommentInput"
 import { isTokenExpired, refreshAccessToken } from "../../Utility/token"
+import { useAuth } from "../../context/AuthContext"
+import { useBlogContext } from "../../context/BlogContext"
 
 {/* TODO: re-fetch all posts and reload the article with the new comment (or add it in state) */}
 
-export default function CommentsSection({ currentPost }) {
+export default function CommentsSection({ currentPost, updateCurrentPost }) {
     const [commentData, setCommentData] = useState({
         content: "",
         postId: currentPost.id
@@ -14,8 +15,8 @@ export default function CommentsSection({ currentPost }) {
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || null)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
-    const comments = currentPost.comments
-    const {user} = useAuth()
+    const { user } = useAuth()
+    const { addComment } = useBlogContext()
 
     function handleInput(e) {
         setCommentData(prev => ({...prev, content: e.target.value}))
@@ -36,49 +37,29 @@ export default function CommentsSection({ currentPost }) {
 
                 console.log("Access token refreshed successfully.")
             } catch (error) {
-                console.log("Error occured: ", error.message)
-                setError(error.message)
+                console.log("Failed to refresh token. Please log in again.")
+                setError("Failed to refresh token. Please log in again.")
+                return
             }
         }
 
         try {
-            const response = await fetch("http://localhost:5000/comments", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`
-                },
-                body: JSON.stringify(commentData)
-            })
-
-            if (!response.ok) {
-                const errorData = await response.json()
-                console.log("Details of error from the server: ", errorData.error)
-                throw new Error(errorData.error)
-            }
-
+            // add comment to DB and context
+            await addComment(currentPost.id, commentData, accessToken)
+            console.log("Current post comments after insertion: ", currentPost.comments)
             setSuccess(true)
+            setCommentData(prev => ({ ...prev, content: "" })) // clearing the input field
         } catch (error) {
             console.log("Error occured: ", error.message)
-            setError(error.message)
+            setError("Failed to add comment. Please try again.")
         }
     }
 
     return (
         <div className="container justify-content-center">
             <h3 className="text-center m-4">Comments</h3>
-            {
-                error &&
-                <div className="alert alert-danger" role="alert">
-                    {error}
-                </div> 
-            }
-            {
-                success && 
-                <div className="alert alert-success" role="alert">
-                    Comment posted.
-                </div>
-            }
+            {error && <div className="alert alert-danger" role="alert">{error}</div>}
+            {success && <div className="alert alert-success" role="alert">Comment posted.</div>}
             {
                 user ? 
                 <CommentInput 
@@ -92,8 +73,8 @@ export default function CommentsSection({ currentPost }) {
                 </div>
             }
             {
-                comments.length > 0 ? 
-                comments.map(comment => (
+                currentPost.comments.length > 0 ? 
+                currentPost.comments.map(comment => (
                     <Comment 
                         key={comment.id}
                         id={comment.id}
