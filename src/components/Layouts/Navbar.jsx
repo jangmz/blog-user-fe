@@ -1,10 +1,22 @@
 import { Link } from "react-router-dom";
 import UserNavbar from "./UserNavbar";
 import GeneralNavbar from "./GeneralNavbar";
+import AuthorNavbar from "./AuthorNavbar";
 import { useAuth } from "../../context/AuthContext";
 
 function Navbar() {
     const { user } = useAuth();
+
+    function renderMenu() {
+        switch (user.role) {
+            case "USER":
+                return <UserNavbar />
+            case "AUTHOR":
+                return <AuthorNavbar />
+            default:
+                return <GeneralNavbar />
+        }
+    }
 
     return (
         <nav id="navbar" className="navbar navbar-expand-md bg-primary">
@@ -16,7 +28,8 @@ function Navbar() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    {user ? <UserNavbar /> : <GeneralNavbar />}
+                    {/*user ? <UserNavbar /> : <GeneralNavbar />*/}
+                    {renderMenu()}
                 </div>
                 
             </div>
