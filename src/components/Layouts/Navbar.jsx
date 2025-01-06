@@ -13,8 +13,6 @@ function Navbar() {
                 return <UserNavbar />
             case "AUTHOR":
                 return <AuthorNavbar />
-            default:
-                return <GeneralNavbar />
         }
     }
 
@@ -29,7 +27,7 @@ function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
                     {/*user ? <UserNavbar /> : <GeneralNavbar />*/}
-                    {renderMenu()}
+                    { user ? renderMenu() : <GeneralNavbar />}
                 </div>
                 
             </div>

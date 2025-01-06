@@ -1,8 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 export default function UserNavbar() {
-    const auth = useAuth()
+    const { logOut } = useAuth()
+    const navigate = useNavigate()
+
+    function logOutAndRedirect() {
+        logOut()
+        navigate("/log-in")
+    }
 
     return(
         <ul className="navbar-nav ms-auto d-flex gap-2">
@@ -16,8 +22,7 @@ export default function UserNavbar() {
                 <Link className="nav-link" to="profile">My Profile</Link>
             </li>
             <li className="nav-item">
-                <button className="nav-link" onClick={auth.logOut}>Log Out</button>
-
+                <button className="nav-link" onClick={logOutAndRedirect}>Log Out</button>
             </li>
         </ul>
     )
