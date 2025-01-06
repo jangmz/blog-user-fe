@@ -32,3 +32,18 @@ export async function refreshAccessToken() {
     const data = await response.json()
     localStorage.setItem("accessToken", data.accessToken)
 }
+
+export function checkAndUpdateToken(token) {
+    if (isTokenExpired(token)) {
+        console.log("Current access token is expired. Refreshing access token...")
+        try {
+            refreshAccessToken()
+            setAccessToken(localStorage.getItem("accessToken"))
+
+            console.log("Access token refreshed successfully.")
+        } catch (error) {
+            console.log("Error occured: ", error.message)
+            setError(error.message)
+        }
+    }
+}
