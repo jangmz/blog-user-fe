@@ -25,8 +25,6 @@ export default function LogInForm() {
             return
         }
 
-        console.log("User data input: ", JSON.stringify(userLogIn))
-
         try {
             const success = await auth.logIn(userLogIn)
 

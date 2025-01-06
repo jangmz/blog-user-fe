@@ -34,7 +34,7 @@ function AuthProvider({ children }) {
             localStorage.setItem("accessToken", data.accessToken)
             localStorage.setItem("refreshToken", data.refreshToken)
 
-            console.log(`User data for context. ID: ${userDecodedData.id}, Username: ${userDecodedData.username}, Role: ${userDecodedData.role}, E-mail: ${userDecodedData.email}`)
+            //console.log(`User data for context. ID: ${userDecodedData.id}, Username: ${userDecodedData.username}, Role: ${userDecodedData.role}, E-mail: ${userDecodedData.email}`)
             
             // assigning data to context
             setToken(data.refreshToken)
