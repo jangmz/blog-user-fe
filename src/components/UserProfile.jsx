@@ -10,6 +10,7 @@ function UserProfile() {
     const [userData, setUserData] = useState(user || null)
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || null)
     const [error, setError] = useState(null)
+    const [validErrors, setValidErrors] = useState([])
     const navigate = useNavigate()
 
     /* TODO #3: Update new data in DB, context, localStorage */
@@ -31,7 +32,14 @@ function UserProfile() {
         console.log("New user data: ", userData)
         // check for validation errors (like on signup)
 
-        updateUser(userData)
+        const responseData = updateUser(userData)
+
+        // check if response data is array (means there are errors)
+        if (Array.isArray(responseData)) {
+            setValidErrors(responseData)
+        } else {
+            setUserData(responseData)
+        }
     }
 
     function deleteAccount() {
@@ -79,9 +87,16 @@ function UserProfile() {
                     {error}
                 </div>
             }
-            <div className="alert alert-info text-center" role="alert">
-                Updating user data is currently unavailable.
-            </div>
+            {
+                validErrors.length > 0 &&
+                <div className="alert alert-danger" role="alert">
+                    <ul className="mb-0">
+                        {validErrors.map((error, index) => (
+                            <li key={index}>{error.msg}</li>
+                        ))}
+                    </ul>
+                </div>
+            }
             <div className="container-fluid w-50">
                 <form onSubmit={handleUpdate}>
                     <FormInput 
@@ -106,7 +121,7 @@ function UserProfile() {
                         onChange={e => handleInput(e)}
                     />
                     <div className="d-grid mt-3 gap-3">
-                        <button className="btn btn-secondary" type="submit"><span className="text-light">Update data (unavailable)</span></button>
+                        <button className="btn btn-primary" type="submit">Update data</button>
                         <button className="btn btn-danger" onClick={deleteAccount}>Delete account</button>
                     </div>
                 </form>

@@ -1,10 +1,12 @@
 import { jwtDecode } from "jwt-decode";
 import { useState, createContext, useContext } from "react";
+import { isTokenExpired, refreshAccessToken } from "../Utility/token";
 
 const AuthContext = createContext()
 
 function AuthProvider({ children }) {
     const [token, setToken] = useState(localStorage.getItem("refreshToken") || "")
+    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || "")
     const [user, setUser] = useState()
 
     async function logIn(userData) { // input -> username, password
@@ -76,8 +78,58 @@ function AuthProvider({ children }) {
         })
     }
 
+    async function updateUser(newUserData) {
+        let errors = []
+        console.log("Updating user data... ", user.id)
+
+        // check token expiration date
+        if (isTokenExpired(accessToken)) {
+            console.log("Current access token is expired. Refreshing access token...")
+            try {
+                refreshAccessToken()
+                setAccessToken(localStorage.getItem("accessToken"))
+
+                console.log("Access token refreshed successfully.")
+            } catch (error) {
+                console.log("Error occured: ", error.message)
+                setError(error.message)
+            }
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/users/${user.id}`, {
+                method: "PUT",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                },
+                body: JSON.stringify(newUserData)
+            })
+
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    // check for an array of errors
+                    if (Array.isArray(errorData.errors)) {
+                        console.log("multiple errors: ", errorData.errors)
+                        errors = errorData.errors
+                    } else {
+                        console.log("single error: ", errorData)
+                        errors.push(errorData.error || "Unknown error occured.")
+                    }
+                    return errors
+                })
+            }
+
+            const data = await response.json()
+            setUser(prev => ({...prev, username: data.username, email: data.email, role: data.role}))
+            console.log("User data updated.")
+        } catch (error) {
+            console.log(error.message) 
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ user, token, logIn, logOut }}>
+        <AuthContext.Provider value={{ user, token, logIn, logOut, updateUser }}>
             {children}
         </AuthContext.Provider>
     )
