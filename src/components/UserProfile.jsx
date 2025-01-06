@@ -6,7 +6,7 @@ import DropdownSelection from "./Forms/DropdownSelection";
 import { isTokenExpired, refreshAccessToken } from "../Utility/token";
 
 function UserProfile() {
-    const {user, logOut} = useAuth()
+    const {user, logOut, updateUser } = useAuth()
     const [userData, setUserData] = useState(user || null)
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || null)
     const [error, setError] = useState(null)
@@ -29,6 +29,9 @@ function UserProfile() {
     async function handleUpdate(e) {
         e.preventDefault()
         console.log("New user data: ", userData)
+        // check for validation errors (like on signup)
+
+        updateUser(userData)
     }
 
     function deleteAccount() {
@@ -103,7 +106,7 @@ function UserProfile() {
                         onChange={e => handleInput(e)}
                     />
                     <div className="d-grid mt-3 gap-3">
-                        <button className="btn btn-secondary"><span className="text-light">Update data (unavailable)</span></button>
+                        <button className="btn btn-secondary" type="submit"><span className="text-light">Update data (unavailable)</span></button>
                         <button className="btn btn-danger" onClick={deleteAccount}>Delete account</button>
                     </div>
                 </form>
