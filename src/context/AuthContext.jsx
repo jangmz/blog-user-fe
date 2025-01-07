@@ -2,9 +2,11 @@ import { jwtDecode } from "jwt-decode";
 import { useState, createContext, useContext } from "react";
 import { isTokenExpired, refreshAccessToken } from "../Utility/token";
 
+
 const AuthContext = createContext()
 
 function AuthProvider({ children }) {
+    const api_url = import.meta.env.VITE_API_URL
     const [token, setToken] = useState(localStorage.getItem("refreshToken") || "")
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || "")
     const [user, setUser] = useState()
@@ -13,7 +15,7 @@ function AuthProvider({ children }) {
         console.log("Logging user in...")
 
         try {
-            const response = await fetch("http://localhost:5000/log-in", {
+            const response = await fetch(`${api_url}/log-in`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData)
@@ -53,7 +55,7 @@ function AuthProvider({ children }) {
         console.log("Logging user out: ", user)
         console.log("Token to be deleted: ", token)
 
-        fetch("http://localhost:5000/log-out", {
+        fetch(`${api_url}/log-out`, {
             method:"DELETE",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token: token }),
@@ -97,7 +99,7 @@ function AuthProvider({ children }) {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/users/${user.id}`, {
+            const response = await fetch(`${api_url}/users/${user.id}`, {
                 method: "PUT",
                 headers: { 
                     "Content-Type": "application/json",
