@@ -37,30 +37,35 @@ export default function NewPost() {
     return (
         <>
         <div className="container mt-4">
-            <form onSubmit={handleSubmit}>
-                <FormInput 
-                    label={"Title"}
-                    name={"title"}
-                    type={"text"}
-                    value={newPost.title}
-                    onChange={(e) => handleInput(e)}
-                />
-                <FormInput 
-                    label={"Content"}
-                    name={"content"}
-                    type={"text"}
-                    value={newPost.content}
-                    onChange={(e) => handleInput(e)}
-                />
-                <DropDownSelection 
-                    label={"Publish"}
-                    name={"published"}
-                    selectValue={newPost.published}
-                    values={["Yes", "No"]}
-                    onChange={(e) => handleInput(e)}
-                />
-                <button type="submit" className="btn btn-primary">Create New Article</button>
-            </form>
+            <h1 className="text-center m-4">New article</h1>
+            <div className="container-fluid w-50">
+                <form onSubmit={handleSubmit}>
+                    <FormInput 
+                        label={"Title"}
+                        name={"title"}
+                        type={"text"}
+                        value={newPost.title}
+                        onChange={(e) => handleInput(e)}
+                    />
+                    <FormInput 
+                        label={"Content"}
+                        name={"content"}
+                        type={"text"}
+                        value={newPost.content}
+                        onChange={(e) => handleInput(e)}
+                    />
+                    <DropDownSelection 
+                        label={"Publish"}
+                        name={"published"}
+                        selectValue={newPost.published}
+                        values={["Yes", "No"]}
+                        onChange={(e) => handleInput(e)}
+                    />
+                    <div className="d-grid mt-3 gap-3">
+                        <button type="submit" className="btn btn-primary">Create New Article</button>
+                    </div>
+                </form>
+            </div>
         </div>
         </>
     )
