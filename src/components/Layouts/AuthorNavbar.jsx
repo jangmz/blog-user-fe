@@ -22,7 +22,7 @@ export default function AuthorNavbar() {
                 <Link to="dashboard" className="nav-link">Dashboard</Link>
             </li>
             <li className="nav-item">
-                <Link to="#" className="nav-link">Create article (unactive)</Link>
+                <Link to="posts/new" className="nav-link">New Article</Link>
             </li>
             <li className="nav-item">
                 <button className="nav-link" onClick={logOutAndRedirect}>Log Out</button>
