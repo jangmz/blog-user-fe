@@ -78,7 +78,7 @@ export function BlogProvider({ children }) {
 
         console.log("Deleting post with ID: ", postId)
 
-        // hitting API
+        // API
         try {
             const response = await fetch(`${api_url}/posts/${postId}`, {
                 method: "DELETE",
@@ -101,8 +101,57 @@ export function BlogProvider({ children }) {
         console.log("Post deleted.")
     }
 
+    // create new post
+    async function createPost(newPostData) {
+        // check token expiration
+        if (isTokenExpired(accessToken)) {
+            console.log("Current access token is expired. Refreshing access token...")
+            try {
+                refreshAccessToken()
+                setAccessToken(localStorage.getItem("accessToken"))
+                console.log("Access token refreshed successfully.")
+            } catch (error) {
+                console.log("Error occured: ", error.message)
+            }
+        }
+
+        console.log("Creating new post...")
+
+        // changing published to boolean value
+        newPostData.published === "No"
+            ? newPostData.published = false
+            : newPostData.published = true
+
+        // API
+        try {
+            const response = await fetch(`${api_url}/posts`, {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                },
+                body: JSON.stringify(newPostData)
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                console.log("Details of error from the server: ", errorData.error)
+                throw new Error(errorData.error)
+            }
+
+            // update state
+            const newPost = await response.json()
+            setPostList(prev => [...prev, newPost])
+            console.log("New post created.")
+            return "New post has been created successfully."
+        } catch (error) {
+            console.error("Error occured: ", error.message)
+            return "Failed creating post."
+        }
+    }
+
     return (
-        <BlogContext.Provider value={{ posts: postList, loading, error, addComment, deletePost }}>
+        <BlogContext.Provider value={{ posts: postList, loading, error, addComment, deletePost, createPost }}>
             {children}
         </BlogContext.Provider>
     )

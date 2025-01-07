@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import AllAuthorPosts from "../components/Dashboard/AllAuthorPosts"
 import { useAuth } from "../context/AuthContext"
 import { useBlogContext } from "../context/BlogContext"
-import { isTokenExpired, refreshAccessToken } from "../Utility/token"
 
 export default function Dashboard() {
     const { user } = useAuth()
