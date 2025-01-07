@@ -4,6 +4,7 @@ import DropDownSelection from "../Forms/DropdownSelection"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
 import { useBlogContext } from "../../context/BlogContext"
+import TextAreaInput from "../Forms/TextAreaInput"
 
 export default function NewPost() {
     const [newPost, setNewPost] = useState({
@@ -47,10 +48,9 @@ export default function NewPost() {
                         value={newPost.title}
                         onChange={(e) => handleInput(e)}
                     />
-                    <FormInput 
+                    <TextAreaInput
                         label={"Content"}
                         name={"content"}
-                        type={"text"}
                         value={newPost.content}
                         onChange={(e) => handleInput(e)}
                     />
