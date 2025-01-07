@@ -25,6 +25,9 @@ export default function AuthorNavbar() {
                 <Link to="posts/new" className="nav-link">New Article</Link>
             </li>
             <li className="nav-item">
+                <Link className="nav-link" to="profile">My Profile</Link>
+            </li>
+            <li className="nav-item">
                 <button className="nav-link" onClick={logOutAndRedirect}>Log Out</button>
             </li>
         </ul>
