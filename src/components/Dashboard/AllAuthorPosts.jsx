@@ -1,6 +1,6 @@
 import { formatDateEU } from "../../Utility/formatDate"
 
-export default function AllAuthorPosts({ authorPosts }) {
+export default function AllAuthorPosts({ authorPosts, handleDelete }) {
 
     return (
         <>
@@ -28,7 +28,7 @@ export default function AllAuthorPosts({ authorPosts }) {
                                                 : <span className="badge rounded-pill text-bg-danger">Unpublished</span>
                                         }
                                     </td>
-                                    <td><button type="button" className="btn btn-outline-danger btn-sm">Delete</button></td>
+                                    <td><button type="button" className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(post.id)}>Delete</button></td>
                                 </tr>
                             ))
                         }

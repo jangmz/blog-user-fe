@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import useFetchPosts from "../hooks/useFetchPosts";
 import { useAuth } from "./AuthContext";
+import { isTokenExpired, refreshAccessToken } from "../Utility/token";
 
 const BlogContext = createContext();
 
@@ -10,8 +11,10 @@ export function useBlogContext() {
 }
 
 export function BlogProvider({ children }) {
+    const api_url = import.meta.env.VITE_API_URL
     const { posts, loading, error } = useFetchPosts()
     const { user } = useAuth()
+    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || null)
     const [postList, setPostList] = useState(posts)
 
     useEffect(() => {
@@ -22,7 +25,7 @@ export function BlogProvider({ children }) {
     async function addComment(postId, commentData, token) {
         try {
             // DB insertion
-            const response = await fetch("http://localhost:5000/comments", {
+            const response = await fetch(`${api_url}/comments`, {
                 method: "POST",
                 headers: {
                     "Content-Type":"application/json",
@@ -59,8 +62,47 @@ export function BlogProvider({ children }) {
         }
     }
 
+    // delete post
+    async function deletePost(postId) {
+        // check token expiration
+        if (isTokenExpired(accessToken)) {
+            console.log("Current access token is expired. Refreshing access token...")
+            try {
+                refreshAccessToken()
+                setAccessToken(localStorage.getItem("accessToken"))
+                console.log("Access token refreshed successfully.")
+            } catch (error) {
+                console.log("Error occured: ", error.message)
+            }
+        }
+
+        console.log("Deleting post with ID: ", postId)
+
+        // hitting API
+        try {
+            const response = await fetch(`${api_url}/posts/${postId}`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${accessToken}` }
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                console.log("Details of error from the server: ", errorData.error)
+                throw new Error(errorData.error)
+            }
+
+            // update state
+            const updatedPosts = postList.filter(post => post.id !== postId)
+            setPostList(updatedPosts)
+        } catch (error) {
+            console.error("Error occured: ", error.message)
+        }
+
+        console.log("Post deleted.")
+    }
+
     return (
-        <BlogContext.Provider value={{ posts: postList, loading, error, addComment }}>
+        <BlogContext.Provider value={{ posts: postList, loading, error, addComment, deletePost }}>
             {children}
         </BlogContext.Provider>
     )
