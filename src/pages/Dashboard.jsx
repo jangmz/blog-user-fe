@@ -22,11 +22,15 @@ export default function Dashboard() {
         navigate("/dashboard")
     }
 
+    function handleEdit(postId) {
+        navigate(`/posts/edit/${postId}`)
+    }
+
     return (
         <>
             <div className="container d-flex flex-column align-items-center mt-4">
                 <h1 className="mb-4">Author dashboard</h1>
-                <AllAuthorPosts authorPosts={authorPosts} handleDelete={handleDelete} />
+                <AllAuthorPosts authorPosts={authorPosts} handleDelete={handleDelete} handleEdit={handleEdit} />
             </div>
         </>
     )

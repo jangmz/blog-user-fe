@@ -16,6 +16,7 @@ import AuthProvider from './context/AuthContext.jsx';
 import UserProfile from './components/UserProfile.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import NewPost from './components/Dashboard/NewPost.jsx';
+import EditPost from './components/Dashboard/EditPost.jsx';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       { path: "posts", element: <Posts /> },
       { path: "posts/:postId", element: <PostDetails /> },
       { path: "posts/new", element: <NewPost /> },
+      { path: "posts/edit/:postId", element: <EditPost /> },
       { path: "log-in", element: <LogInForm /> },
       { path: "sign-up", element: <SignUpForm /> },
       { path: "profile", element: <UserProfile /> },
