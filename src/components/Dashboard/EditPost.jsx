@@ -8,13 +8,14 @@ import { useAuth } from "../../context/AuthContext"
 
 export default function EditPost() {
     const params = useParams()
-    const { posts } = useBlogContext()
+    const { posts, updatePost } = useBlogContext()
     const { user } = useAuth()
     const [post, setPost] = useState(() => {
         const tempPost = posts.filter(post => post.id === parseInt(params.postId))
         return tempPost[0]
     })
     const [error, setError] = useState(null)
+    const [message, setMessage] = useState()
 
     useEffect(() => {
             // check user existance and role
@@ -31,9 +32,9 @@ export default function EditPost() {
     function handleUpdate(e) {
         e.preventDefault()
         console.log("Updating post data: ", post)
-        // don't forget to add an "updated" value before updating it
         try {
-            // TODO: call function to edit the post in BlogContext
+            updatePost(post)
+            setMessage("Post updated successfully")
         } catch (error) {
             console.error(error.message)
             setError(error.message)
@@ -47,6 +48,12 @@ export default function EditPost() {
                         error &&
                         <div className="alert alert-danger" role="alert">
                             {error}
+                        </div>
+                    }
+                    {
+                        message &&
+                        <div className="alert alert-info" role="alert">
+                            {message}
                         </div>
                     }
                     <div className="container-fluid w-50">

@@ -21,6 +21,21 @@ export function BlogProvider({ children }) {
         setPostList(posts)
     }, [posts])
 
+    // check token expiration
+    function checkToken() {
+        // check token expiration
+        if (isTokenExpired(accessToken)) {
+            console.log("Current access token is expired. Refreshing access token...")
+            try {
+                refreshAccessToken()
+                setAccessToken(localStorage.getItem("accessToken"))
+                console.log("Access token refreshed successfully.")
+            } catch (error) {
+                console.log("Error occured: ", error.message)
+            }
+        }
+    }
+
     // adding a new comment to the post
     async function addComment(postId, commentData, token) {
         try {
@@ -150,8 +165,45 @@ export function BlogProvider({ children }) {
         }
     }
 
+    // update post
+    async function updatePost(postData) {
+        checkToken()
+
+        console.log(`Updating post with ID ${postData.id}...`)
+
+        // changing published to boolean value
+        postData.published = postData.published === "No" ? false : true
+        postData.updated = new Date()
+
+        try {
+            const response = await fetch(`${api_url}/posts/${postData.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                },
+                body: JSON.stringify(postData)
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                console.log("Details of error from the server: ", errorData.error)
+                throw new Error(errorData.error)
+            }
+
+            const responseData = await response.json()
+            setPostList(prev => {
+                prev.map(post => {
+                    post.id === responseData.updatedPost.id ? responseData.updatedPost : post
+                })
+            })
+        } catch (error) {
+            console.error(error.message)
+            return new Error(error.message)
+        }
+    }
     return (
-        <BlogContext.Provider value={{ posts: postList, loading, error, addComment, deletePost, createPost }}>
+        <BlogContext.Provider value={{ posts: postList, loading, error, addComment, deletePost, createPost, updatePost }}>
             {children}
         </BlogContext.Provider>
     )
