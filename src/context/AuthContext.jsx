@@ -10,6 +10,7 @@ function AuthProvider({ children }) {
     const [token, setToken] = useState(localStorage.getItem("refreshToken") || "")
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || "")
     const [user, setUser] = useState()
+    const [error, setError] = useState(null)
 
     async function logIn(userData) { // input -> username, password
         console.log("Logging user in...")
@@ -47,6 +48,7 @@ function AuthProvider({ children }) {
             return true
         } catch (error) {
             console.log("Error during log in: ", error.message)
+            setError(`Error occured during log in: ${error.message}`)
             return false
         }
     }
@@ -76,6 +78,7 @@ function AuthProvider({ children }) {
             console.log("User logged out.")
         }).catch(error => {
             console.error("Error logging out: ", error.message)
+            setError(`Error occured during log out: ${error.message}`)
             alert(error.message)
         })
     }
@@ -90,7 +93,6 @@ function AuthProvider({ children }) {
             try {
                 refreshAccessToken()
                 setAccessToken(localStorage.getItem("accessToken"))
-
                 console.log("Access token refreshed successfully.")
             } catch (error) {
                 console.log("Error occured: ", error.message)
@@ -127,11 +129,12 @@ function AuthProvider({ children }) {
             console.log("User data updated.")
         } catch (error) {
             console.log(error.message) 
+            setError(`Error occured while updating user data: ${error.message}`)
         }
     }
 
     return (
-        <AuthContext.Provider value={{ user, token, logIn, logOut, updateUser }}>
+        <AuthContext.Provider value={{ user, token, error, logIn, logOut, updateUser }}>
             {children}
         </AuthContext.Provider>
     )

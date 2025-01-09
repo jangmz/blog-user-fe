@@ -6,14 +6,12 @@ import DropdownSelection from "./Forms/DropdownSelection";
 import { isTokenExpired, refreshAccessToken } from "../Utility/token";
 
 function UserProfile() {
-    const {user, logOut, updateUser } = useAuth()
+    const {user, authError, logOut, updateUser } = useAuth()
     const [userData, setUserData] = useState(user || null)
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || null)
     const [error, setError] = useState(null)
     const [validErrors, setValidErrors] = useState([])
     const navigate = useNavigate()
-
-    /* TODO #3: Update new data in DB, context, localStorage */
 
     useEffect(() => {
         if (!userData) {
@@ -85,6 +83,12 @@ function UserProfile() {
                 error &&
                 <div className="alert alert-danger" role="alert">
                     {error}
+                </div>
+            }
+            {
+                authError &&
+                <div className="alert alert-danger" role="alert">
+                    {authError}
                 </div>
             }
             {

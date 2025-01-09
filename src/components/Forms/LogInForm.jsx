@@ -48,6 +48,12 @@ export default function LogInForm() {
                     {error}
                 </div>
             }
+            {
+                auth.error && 
+                <div className="alert alert-danger" role="alert">
+                    {auth.error}
+                </div>
+            }
             <div className="container-fluid w-50">
                 <form onSubmit={handleSubmit}>
                     <FormInput
