@@ -5,18 +5,24 @@ export default function RecentBlogList() {
     const { posts, loading, error } = useBlogContext();
     const recentPosts = posts.slice(0,6)
 
-    if (loading) {
-        return <div>Loading...</div>
-    }
-
-    if (error) {
-        return <div>Error: {error.message}</div>
-    }
-
     return (
         <div className="container-fluid d-flex flex-column align-items-center">
             <h2 className="mt-4">Recent posts</h2>
             <div className="row w-100 justify-content-center">
+                {
+                    loading &&
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                }
+                {
+                    error &&
+                    <div className="alert alert-danger text-center" role="alert">
+                        {error.message}
+                    </div>
+                }
                 {
                     Array.isArray(recentPosts) && recentPosts.map(post => (
                         <BlogCard 

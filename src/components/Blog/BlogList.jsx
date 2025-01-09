@@ -4,17 +4,23 @@ import { useBlogContext } from "../../context/BlogContext";
 export default function BlogList() {    
     const { posts, loading, error } = useBlogContext();
 
-    if (loading) {
-        return <div>Loading...</div>
-    }
-
-    if (error) {
-        return <div>Error: {error.message}</div>
-    }
-
     return (
         <div className="container-fluid d-flex flex-column align-items-center">
             <div className="row w-100 justify-content-center">
+                {
+                    loading &&
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                }
+                {
+                    error &&
+                    <div className="alert alert-danger text-center" role="alert">
+                        {error.message}
+                    </div>
+                }
                 {
                     Array.isArray(posts) && posts.map(post => (
                         <BlogCard 
@@ -30,38 +36,3 @@ export default function BlogList() {
         </div>
     )
 }
-
-/*const [allPosts, setAllPosts] = useState([
-        {
-            id: 1,
-            title: "Test 1",
-            content: "Test content 1",
-            created: "12/12/2024"
-        },{
-            id:2,
-            title: "Test 2",
-            content: "Test content 2",
-            created: "12/12/2024"
-        },{
-            id: 3,
-            title: "Test 3",
-            content: "Test content 3",
-            created: "12/12/2024"
-        },{
-            id: 4,
-            title: "Test 4",
-            content: "Test content 4",
-            created: "12/12/2024"
-        },{
-            id: 5,
-            title: "Test 5",
-            content: "Test content 5",
-            created: "12/12/2024"
-        },{
-            id: 6,
-            title: "Test 6",
-            content: "Test content 6",
-            created: "12/12/2024"
-        }
-    ]);
-    */
