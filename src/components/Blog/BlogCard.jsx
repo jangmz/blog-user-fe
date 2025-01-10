@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { formatDateEU } from "../../Utility/formatDate";
 
 function BlogCard({ id, title, content, created }) {
     const shortContent = content.slice(0,100);
@@ -17,7 +18,7 @@ function BlogCard({ id, title, content, created }) {
                 <Link to={`/posts/${id}`} className="btn btn-primary">Read</Link>
             </div>
             <div className="card-footer text-body-secondary">
-                {created}
+                Posted: {formatDateEU(created)}
             </div>
         </div>
     )
