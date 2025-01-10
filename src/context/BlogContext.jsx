@@ -66,7 +66,7 @@ export function BlogProvider({ children }) {
                     post.id === postId ?
                         { ...post, comments: [...post.comments, newComment] } : post
                 )
-                console.log("Updated posts: ", updatedPosts)
+                //console.log("Updated posts: ", updatedPosts)
                 return updatedPosts
             })
 
@@ -77,23 +77,48 @@ export function BlogProvider({ children }) {
         }
     }
 
+    // delete comment
+    async function deleteComment(commentId, postId) {
+        checkToken()
+
+        try {
+            const response = await fetch(`${api_url}/comments/${commentId}`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${accessToken}` }
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                console.log("Details of error from the server: ", errorData.error)
+                throw new Error(errorData.error)
+            }
+
+            // update state
+            setPostList(prev => {
+                const updatedPosts = prev.map(post => {
+                    if (post.id === postId) {
+                        return { 
+                            ...post, 
+                            comments: post.comments.filter(comment => comment.id !== commentId) 
+                        }
+                    }
+                    return post
+                })
+                return updatedPosts
+            })
+            
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
     // delete post
     async function deletePost(postId) {
         // check token expiration
-        if (isTokenExpired(accessToken)) {
-            console.log("Current access token is expired. Refreshing access token...")
-            try {
-                refreshAccessToken()
-                setAccessToken(localStorage.getItem("accessToken"))
-                console.log("Access token refreshed successfully.")
-            } catch (error) {
-                console.log("Error occured: ", error.message)
-            }
-        }
+        checkToken()
 
         console.log("Deleting post with ID: ", postId)
 
-        // API
         try {
             const response = await fetch(`${api_url}/posts/${postId}`, {
                 method: "DELETE",
@@ -203,7 +228,7 @@ export function BlogProvider({ children }) {
         }
     }
     return (
-        <BlogContext.Provider value={{ posts: postList, loading, error, addComment, deletePost, createPost, updatePost }}>
+        <BlogContext.Provider value={{ posts: postList, loading, error, addComment, deleteComment, deletePost, createPost, updatePost }}>
             {children}
         </BlogContext.Provider>
     )

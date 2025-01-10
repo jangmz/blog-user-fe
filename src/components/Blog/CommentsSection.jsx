@@ -14,7 +14,7 @@ export default function CommentsSection({ currentPost, updateCurrentPost }) {
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
     const { user } = useAuth()
-    const { addComment } = useBlogContext()
+    const { addComment, deleteComment } = useBlogContext()
 
     function handleInput(e) {
         setCommentData(prev => ({...prev, content: e.target.value}))
@@ -71,18 +71,23 @@ export default function CommentsSection({ currentPost, updateCurrentPost }) {
                 </div>
             }
             {
-                currentPost.comments.length > 0 ? 
-                currentPost.comments.map(comment => (
+                currentPost.comments.length > 0 
+                ? currentPost.comments.map(comment => (
                     <Comment 
                         key={comment.id}
                         id={comment.id}
                         content={comment.content}
                         created={comment.created}
+                        loggedUser={user}
                         user={comment.user.username}
                         userRole={comment.user.role}
+                        currentPostId = {currentPost.id}
+                        deleteComment={deleteComment}
                     />
-                )) :
-                <div className="alert alert-info text-center" role="alert">There are no comments.</div>
+                ))
+                : <div className="alert alert-info text-center" role="alert">
+                    There are no comments.
+                </div>
             }
         </div>
     )
