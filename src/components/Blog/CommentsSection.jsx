@@ -5,8 +5,6 @@ import { isTokenExpired, refreshAccessToken } from "../../Utility/token"
 import { useAuth } from "../../context/AuthContext"
 import { useBlogContext } from "../../context/BlogContext"
 
-{/* TODO: re-fetch all posts and reload the article with the new comment (or add it in state) */}
-
 export default function CommentsSection({ currentPost, updateCurrentPost }) {
     const [commentData, setCommentData] = useState({
         content: "",
@@ -84,7 +82,7 @@ export default function CommentsSection({ currentPost, updateCurrentPost }) {
                         userRole={comment.user.role}
                     />
                 )) :
-                <p>There are no comments</p>
+                <div className="alert alert-info text-center" role="alert">There are no comments.</div>
             }
         </div>
     )
