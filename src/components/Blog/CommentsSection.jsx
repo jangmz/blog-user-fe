@@ -79,6 +79,7 @@ export default function CommentsSection({ currentPost, updateCurrentPost }) {
                         content={comment.content}
                         created={comment.created}
                         loggedUser={user}
+                        postAuthor={currentPost.author}
                         user={comment.user.username}
                         userRole={comment.user.role}
                         currentPostId = {currentPost.id}
