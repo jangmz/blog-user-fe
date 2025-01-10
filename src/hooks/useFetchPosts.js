@@ -11,7 +11,7 @@ export default function useFetchPosts() {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        if (user) {
+        /*if (user) {
             // check token expiration
             if (isTokenExpired(accessToken)) {
                 console.log("Current access token is expired. Refreshing access token...")
@@ -23,7 +23,7 @@ export default function useFetchPosts() {
                     console.log("Error occured: ", error.message)
                 }
             }
-        }
+        }*/
     
         // set endpoints and headers depending on user log-in status
         const apiEndpoint = accessToken && user?.role === "AUTHOR" ? `${api_url}/posts/all` : `${api_url}/posts`
