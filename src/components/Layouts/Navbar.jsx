@@ -21,9 +21,16 @@ function Navbar() {
         <nav id="navbar" className="navbar navbar-expand-md bg-primary">
             <div className="container-fluid">
                 <Link to="/">
-                    <h3 className="navbar-brand d-flex justify-content-center m-0">
-                        <img src={Logo} alt="logo" style={{ height: "50px", width:"auto"}}/>
-                    </h3>
+                    {/*
+                        <h3 className="navbar-brand d-flex justify-content-center m-0">
+                            <img src={Logo} alt="logo" style={{ height: "30px", width:"auto"}}/>
+                        </h3>
+                    */}
+                    {
+                        user 
+                        ? <h3 className="navbar-brand d-flex justify-content-center m-0">Hi, {user.username}</h3>
+                        : <h3 className="navbar-brand d-flex justify-content-center m-0">Blog</h3>
+                    }
                 </Link>
                 <button type="button" className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
