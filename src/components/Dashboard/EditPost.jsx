@@ -52,7 +52,7 @@ export default function EditPost() {
                     }
                     {
                         message &&
-                        <div className="alert alert-info" role="alert">
+                        <div className="alert alert-success text-center" role="alert">
                             {message}
                         </div>
                     }

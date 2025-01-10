@@ -9,11 +9,13 @@ export default function AllAuthorPosts({ authorPosts, handleDelete, handleEdit }
                 ? 
                 <table className="table text-center">
                     <thead>
-                        <td scope="col"><strong>Title</strong></td>
-                        <td scope="col"><strong>Created</strong></td>
-                        <td scope="col"><strong>Updated</strong></td>
-                        <td scope="col"><strong>Published/Unpublished</strong></td>
-                        <td scope="col"><strong>Action</strong></td>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Updated</th>
+                            <th scope="col">Published/Unpublished</th>
+                            <th scope="col">Action</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {
