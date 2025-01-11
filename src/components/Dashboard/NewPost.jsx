@@ -25,7 +25,10 @@ export default function NewPost() {
 
     function handleInput(e) {
         const { name, value } = e.target
-        setNewPost(prev => ({ ...prev, [name]: value }))
+        setNewPost(prev => ({ 
+            ...prev, 
+            [name]: name === "published" ? (value === "Yes") : value 
+        }))
     }
 
     function handleSubmit(e) {
@@ -46,20 +49,20 @@ export default function NewPost() {
                         name={"title"}
                         type={"text"}
                         value={newPost.title}
-                        onChange={(e) => handleInput(e)}
+                        onChange={handleInput}
                     />
                     <TextAreaInput
                         label={"Content"}
                         name={"content"}
                         value={newPost.content}
-                        onChange={(e) => handleInput(e)}
+                        onChange={handleInput}
                     />
                     <DropDownSelection 
                         label={"Publish"}
                         name={"published"}
-                        selectValue={newPost.published}
+                        selectValue={newPost.published ? "Yes" : "No"}
                         values={["Yes", "No"]}
-                        onChange={(e) => handleInput(e)}
+                        onChange={handleInput}
                     />
                     <div className="d-grid mt-3 gap-3">
                         <button type="submit" className="btn btn-primary">Create New Article</button>

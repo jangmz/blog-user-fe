@@ -26,7 +26,10 @@ export default function EditPost() {
 
     function handleInput(e) {
         const { name, value } = e.target
-        setPost(prev => ({ ...prev, [name]: value }))
+        setPost(prev => ({ 
+            ...prev, 
+            [name]: name === "published" ? (value === "Yes") : value 
+        }))
     }
 
     function handleUpdate(e) {
@@ -63,20 +66,20 @@ export default function EditPost() {
                                 type={"title"}
                                 name={"title"}
                                 value={post.title}
-                                onChange={e => handleInput(e)}
+                                onChange={handleInput}
                             />
                             <TextAreaInput
                                 label={"Content"}
                                 name={"content"}
                                 value={post.content}
-                                onChange={(e) => handleInput(e)}
+                                onChange={handleInput}
                             />
                             <DropdownSelection 
                                 label={"Publish"}
                                 name={"published"}
                                 selectValue={post.published ? "Yes" : "No"}
                                 values={["Yes", "No"]}
-                                onChange={(e) => handleInput(e)}
+                                onChange={handleInput}
                             />
                             <div className="d-grid mt-3 gap-3">
                                 <button className="btn btn-primary" type="submit">Update</button>

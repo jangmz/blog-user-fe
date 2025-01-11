@@ -80,7 +80,7 @@ export function BlogProvider({ children }) {
 
     // delete comment
     async function deleteComment(commentId, postId) {
-        checkToken()
+        await checkToken()
 
         try {
             const response = await fetch(`${api_url}/comments/${commentId}`, {
@@ -116,7 +116,7 @@ export function BlogProvider({ children }) {
     // delete post
     async function deletePost(postId) {
         // check token expiration
-        checkToken()
+        await checkToken()
 
         console.log("Deleting post with ID: ", postId)
 
@@ -145,7 +145,7 @@ export function BlogProvider({ children }) {
     // create new post
     async function createPost(newPostData) {
         // check token expiration
-        checkToken()
+        await checkToken()
 
         console.log("Creating new post...")
 
@@ -184,12 +184,11 @@ export function BlogProvider({ children }) {
 
     // update post
     async function updatePost(postData) {
-        checkToken()
+        await checkToken()
 
         console.log(`Updating post with ID ${postData.id}...`)
 
         // changing published to boolean value
-        postData.published = postData.published === "No" ? false : true
         postData.updated = new Date()
 
         try {
@@ -209,16 +208,18 @@ export function BlogProvider({ children }) {
             }
 
             const responseData = await response.json()
-            setPostList(prev => {
-                prev.map(post => {
+            setPostList(prev =>
+                prev.map(post => 
                     post.id === responseData.updatedPost.id ? responseData.updatedPost : post
-                })
-            })
+                )
+            )
+            
         } catch (error) {
             console.error(error.message)
             return new Error(error.message)
         }
     }
+    
     return (
         <BlogContext.Provider value={{ posts: postList, loading, error, addComment, deleteComment, deletePost, createPost, updatePost }}>
             {children}
