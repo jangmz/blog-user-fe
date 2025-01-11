@@ -1,4 +1,4 @@
-![author_dashboard](https://github.com/user-attachments/assets/6cc8fc75-44d0-4f74-8415-4df4906a5b00)# Blog (front end)
+# Blog (front end)
 Aplication preview: [Blog Application](https://blog-app23.netlify.app)
 Blog API (back end) information can be found here: [Blog API](https://github.com/jangmz/blog-api)
 
@@ -7,20 +7,20 @@ Blog API (back end) information can be found here: [Blog API](https://github.com
 This application is a blog platform designed for both guests and authenticated users with distinct roles:
 
 #### Guests:
-Can freely read blog posts.
-Can create an account and choose to be a regular user or an author.
-Can comment on blog posts to engage with content.
+- Can freely read blog posts.
+- Can create an account and choose to be a regular user or an author.
+- Can comment on blog posts to engage with content.
 
 #### Regular Users:
-Can read blog posts and comment on them.
+- Can read blog posts and comment on them.
 
 #### Authors:
 In addition to reading posts and commenting, authors have access to a dashboard where they can:
-    Create new posts.
-    Edit existing posts.
-    Delete their own posts.
-    Delete comments on their posts to manage content and user engagement.
-![author_edit_article](https://github.com/user-attachments/assets/f0e01b42-c875-4f43-a70d-10fd557e366f)
+- Create new posts.
+- Edit existing posts.
+- Delete their own posts.
+- Delete comments on their posts to manage content and user engagement.
+
 ![author_dashboard](https://github.com/user-attachments/assets/d5310bb2-1b44-4d3b-b51e-2591b71efd5f)
 
 This platform aims to provide a simple yet effective environment for reading and managing blog content, with a clear separation of roles and permissions for users and authors.
