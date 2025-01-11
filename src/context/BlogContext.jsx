@@ -145,16 +145,7 @@ export function BlogProvider({ children }) {
     // create new post
     async function createPost(newPostData) {
         // check token expiration
-        if (isTokenExpired(accessToken)) {
-            console.log("Current access token is expired. Refreshing access token...")
-            try {
-                refreshAccessToken()
-                setAccessToken(localStorage.getItem("accessToken"))
-                console.log("Access token refreshed successfully.")
-            } catch (error) {
-                console.log("Error occured: ", error.message)
-            }
-        }
+        checkToken()
 
         console.log("Creating new post...")
 
@@ -182,7 +173,7 @@ export function BlogProvider({ children }) {
 
             // update state
             const newPost = await response.json()
-            setPostList(prev => [...prev, newPost])
+            setPostList(prev => [newPost, ...prev])
             console.log("New post created.")
             return "New post has been created successfully."
         } catch (error) {
