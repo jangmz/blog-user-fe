@@ -6,20 +6,20 @@ Blog API (back end) information can be found here: [Blog API](https://github.com
 
 This application is a blog platform designed for both guests and authenticated users with distinct roles:
 
-    Guests:
-        Can freely read blog posts.
-        Can create an account and choose to be a regular user or an author.
-        Can comment on blog posts to engage with content.
+#### Guests:
+Can freely read blog posts.
+Can create an account and choose to be a regular user or an author.
+Can comment on blog posts to engage with content.
 
-    Regular Users:
-        Can read blog posts and comment on them.
+#### Regular Users:
+Can read blog posts and comment on them.
 
-    Authors:
-        In addition to reading posts and commenting, authors have access to a dashboard where they can:
-            Create new posts.
-            Edit existing posts.
-            Delete their own posts.
-            Delete comments on their posts to manage content and user engagement.
+#### Authors:
+In addition to reading posts and commenting, authors have access to a dashboard where they can:
+    Create new posts.
+    Edit existing posts.
+    Delete their own posts.
+    Delete comments on their posts to manage content and user engagement.
 
 This platform aims to provide a simple yet effective environment for reading and managing blog content, with a clear separation of roles and permissions for users and authors.
 
