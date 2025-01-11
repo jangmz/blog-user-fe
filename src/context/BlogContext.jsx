@@ -22,13 +22,14 @@ export function BlogProvider({ children }) {
     }, [posts])
 
     // check token expiration
-    function checkToken() {
+    async function checkToken() {
         // check token expiration
         if (isTokenExpired(accessToken)) {
             console.log("Current access token is expired. Refreshing access token...")
             try {
-                refreshAccessToken()
-                setAccessToken(localStorage.getItem("accessToken"))
+                await refreshAccessToken()
+                const newAccessToken = localStorage.getItem("accessToken")
+                setAccessToken(newAccessToken)
                 console.log("Access token refreshed successfully.")
             } catch (error) {
                 console.log("Error occured: ", error.message)

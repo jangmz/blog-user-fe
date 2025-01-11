@@ -17,20 +17,25 @@ export async function refreshAccessToken() {
         throw new Error("No refresh token available")
     }
 
-    const response = await fetch("http://localhost:5000/token", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ token })
-    })
+    try {
+        const response = await fetch("http://localhost:5000/token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token }),
+        });
 
-    if (!response.ok) {
-        throw new Error("Error retrieving new token.")
+        if (!response.ok) {
+            throw new Error("Error retrieving new token.")
+        }
+
+        const data = await response.json()
+        localStorage.setItem("accessToken", data.accessToken)
+    } catch (error) {
+        console.error("Failed to refresh access token:", error.message)
+        throw error // Rethrow the error so the calling code can handle it
     }
-
-    const data = await response.json()
-    localStorage.setItem("accessToken", data.accessToken)
 }
 
 export function checkAndUpdateToken(token) {
