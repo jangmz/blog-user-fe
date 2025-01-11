@@ -1,3 +1,5 @@
+import { formatDateEU } from "../../Utility/formatDate";
+
 export default function BlogArticle({ currentPost }) {
 
     return (
@@ -5,10 +7,10 @@ export default function BlogArticle({ currentPost }) {
             <h1 className="text-center">{currentPost.title}</h1>
             <div className="d-flex flex-column">
                 <i>Author: {currentPost.author.username}</i>
-                <i>Posted: {currentPost.created}</i>
+                <i>Posted: {formatDateEU(currentPost.created)}</i>
                 <i>
                     {
-                        currentPost.updated ? `Updated: ${currentPost.updated}` : ""
+                        currentPost.updated ? `Updated: ${formatDateEU(currentPost.updated)}` : ""
                     }
                 </i>
             </div>
