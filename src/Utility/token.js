@@ -11,6 +11,7 @@ export function isTokenExpired(token) {
 }
 
 export async function refreshAccessToken() {
+    const api_url = import.meta.env.VITE_API_URL
     const token = localStorage.getItem("refreshToken")
 
     if (!token) {
@@ -18,7 +19,7 @@ export async function refreshAccessToken() {
     }
 
     try {
-        const response = await fetch("http://localhost:5000/token", {
+        const response = await fetch(`${api_url}/token`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

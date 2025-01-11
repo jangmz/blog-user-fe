@@ -6,6 +6,7 @@ import DropdownSelection from "./Forms/DropdownSelection";
 import { isTokenExpired, refreshAccessToken } from "../Utility/token";
 
 function UserProfile() {
+    const api_url = import.meta.env.VITE_API_URL
     const {user, authError, logOut, updateUser } = useAuth()
     const [userData, setUserData] = useState(user || null)
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || null)
@@ -60,7 +61,7 @@ function UserProfile() {
         console.log("Deleting user...")
 
         // delete user in DB
-        fetch(`http://localhost:5000/users/${user.id}`, {
+        fetch(`${api_url}/users/${user.id}`, {
             method: "DELETE",
             headers: { "Authorization": `Bearer ${accessToken}`}
         })

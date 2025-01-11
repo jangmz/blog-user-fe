@@ -4,6 +4,7 @@ import DropdownSelection from "./DropdownSelection";
 import FormInput from "./FormInput";
 
 export default function SignUpForm() {
+    const api_url = import.meta.env.VITE_API_URL
     const [userSignUp, setUserSignUp] = useState({
         username: "",
         password1: "",
@@ -23,7 +24,7 @@ export default function SignUpForm() {
         e.preventDefault()
 
         // create a user
-        fetch("http://localhost:5000/users/sign-up", {
+        fetch(`${api_url}/users/sign-up`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
