@@ -15,6 +15,9 @@ export default function RecentBlogList() {
                         <div className="spinner-border" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>
+                        <div className="alert alert-info text-center" role="alert">
+                            Please wait about 1 min for backend to start up as it is hosted on a service that puts application to sleep during periods of inactivity.
+                        </div>
                     </div>
                 }
                 {
