@@ -67,7 +67,7 @@ export default function CommentsSection({ currentPost, updateCurrentPost }) {
                 />
                  :
                 <div className="alert alert-secondary" role="alert">
-                    To comment on this post please <a href="/log-in">LOG IN</a> or <a href="/sign-up">SIGN UP</a>.
+                    To comment on this post please <Link to="log-in" className="nav-link">LOG IN</Link>or <Link to="sign-up" className="nav-link">SIGN UP</Link>.
                 </div>
             }
             {
