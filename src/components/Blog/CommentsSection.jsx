@@ -67,8 +67,13 @@ export default function CommentsSection({ currentPost, updateCurrentPost }) {
                     onCommentSubmit={onCommentSubmit}
                 />
                  :
-                <div className="alert alert-secondary" role="alert">
-                    To comment on this post please <Link to="log-in" className="nav-link">LOG IN</Link>or <Link to="sign-up" className="nav-link">SIGN UP</Link>.
+                <div className="alert alert-secondary d-flex justify-content-center" role="alert">
+                    
+                        To comment on this post please
+                        <Link to="/log-in" className="text-reset ms-1 me-1">LOG IN</Link>
+                        or
+                        <Link to="/sign-up" className="text-reset ms-1 me-1">SIGN UP</Link>
+                    
                 </div>
             }
             {
